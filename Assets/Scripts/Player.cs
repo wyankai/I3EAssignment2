@@ -66,6 +66,8 @@ public class Player : MonoBehaviour
         currentState = nextState;
         StartCoroutine(currentState);
     }
+
+    //Check and allow the player to jump
     private void CheckJump()
     {
         if (Input.GetKeyDown(KeyCode.Space) && onGround)
@@ -75,6 +77,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    //Allow player to jump if they land on the ground.
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Ground")
