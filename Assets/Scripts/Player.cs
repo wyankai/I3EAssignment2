@@ -27,6 +27,9 @@ public class Player : MonoBehaviour
     // Solve the problem where the camera overturn at the start of the game(Part 1)
     private float rotationSpeed = 0;
 
+    //To check if the player is on the ground
+    private bool onGround = true;
+
     // The camera attached to the player model.
     [SerializeField]
     private Camera playerCamera;
@@ -52,11 +55,7 @@ public class Player : MonoBehaviour
         }
 
         CheckRotation();
-
-        if (Input.GetKeyDown (KeyCode.Space))
-        {
-            myRigidbody.AddForce(new Vector3(0,5,0),ForceMode.Impulse);
-        }
+        CheckJump();
     }
 
     // Sets the current state of the player and starts the correct coroutine.
@@ -66,6 +65,22 @@ public class Player : MonoBehaviour
 
         currentState = nextState;
         StartCoroutine(currentState);
+    }
+    private void CheckJump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && onGround)
+        {
+            myRigidbody.AddForce(new Vector3(0, 5, 0), ForceMode.Impulse);
+            onGround = false;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+        {
+            onGround = true;
+        }
     }
 
     // Checks and handles rotation of the camera and player
