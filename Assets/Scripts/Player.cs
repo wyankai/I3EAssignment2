@@ -121,11 +121,11 @@ public class Player : MonoBehaviour
             newPos += movementVector;
 
             transform.position = newPos;
-            return false;
+            return true;
         }
         else
         {
-            return true;
+            return false;
         }
     }
 
