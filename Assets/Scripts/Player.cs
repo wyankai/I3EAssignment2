@@ -19,6 +19,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Rigidbody myRigidbody;
 
+    [SerializeField]
+    private float interactionDistance;
+
     // The distance this player will travel per second.
     [SerializeField]
     private float moveSpeed;
@@ -53,9 +56,14 @@ public class Player : MonoBehaviour
         {
             SwitchState();
         }
-
+        //Check for rotation of the character and the camera
         CheckRotation();
+
+        //Check if space button is being pressed
         CheckJump();
+
+        //Raycast
+        InteractionRaycast();
     }
 
     // Sets the current state of the player and starts the correct coroutine.
@@ -65,6 +73,29 @@ public class Player : MonoBehaviour
 
         currentState = nextState;
         StartCoroutine(currentState);
+    }
+
+    //Raycast for the character
+    private void InteractionRaycast()
+    {
+        //Draw line
+        Debug.DrawLine(playerCamera.transform.position, playerCamera.transform.position + playerCamera.transform.forward * interactionDistance);
+
+        //Layer in which raycast can detect
+        int layerMask = 1 << LayerMask.NameToLayer("Interactables");
+
+        RaycastHit hitInfo;
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, 1))
+        {
+            //If my ray hits something, print out the name of the object
+            Debug.Log(hitInfo.transform.name);
+
+            //if (Input.GetKey(KeyCode.E))
+            //{
+                //hitInfo.transform.GetComponent<InteractableObjects>().Interact();
+            //}
+
+        }
     }
 
     //Check and allow the player to jump
@@ -108,6 +139,8 @@ public class Player : MonoBehaviour
     // Checks and handles movement of the player
     private bool CheckMovement()
     {
+        CheckRun();
+
         Vector3 newPos = transform.position;
 
         Vector3 xMovement = transform.right * Input.GetAxis("Horizontal");
@@ -126,6 +159,19 @@ public class Player : MonoBehaviour
         else
         {
             return false;
+        }
+    }
+
+    private void CheckRun()
+    {
+        // If left shift is being pressed, run
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            moveSpeed = 8;
+        }
+        else
+        {
+            moveSpeed = 5;
         }
     }
 
