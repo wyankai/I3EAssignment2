@@ -1,3 +1,15 @@
+/******************************************************************************
+Author: Syakir(S10204929) and Yankai(S10206089)
+[Adapted from Mr Elyas's Script]
+
+Name of Class: DemoPlayer
+
+Description of Class: This class will set up the camera material for the portal so that it will follow the player's camera. 
+					  (Provide a more smooth texture)
+
+Date Created: 20/06/2021
+******************************************************************************/
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

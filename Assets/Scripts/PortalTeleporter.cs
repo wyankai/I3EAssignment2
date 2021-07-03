@@ -1,52 +1,61 @@
+/******************************************************************************
+Author: Syakir(S10204929) and Yankai(S10206089)
+
+Name of Class: DemoPlayer
+
+Description of Class: This class will detect if the player is colliding with the
+					  collider, and if they do, teleport them to the designated area.
+
+Date Created: 27/06/2021
+******************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PortalTeleporter : MonoBehaviour
 {
-    public Transform player;
-    public Transform reciever;
+	public Transform player;
+	public Transform reciever;
 
-    private bool playerisOverlapping = false;
+	private bool playerIsOverlapping = false;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (playerisOverlapping)
-        {
-            Vector3 portalToPlayer = player.position - transform.position;
-            float dotProduct = Vector3.Dot(transform.up, portalToPlayer);
+	// Update is called once per frame
+	void Update()
+	{
+		if (playerIsOverlapping)
+		{
+			Vector3 portalToPlayer = player.position - transform.position;
+			float dotProduct = Vector3.Dot(transform.up, portalToPlayer);
 
-            if(dotProduct < 0f)
-            {
-                //Teleport player
-                float rotationDiff = Quaternion.Angle(transform.rotation, reciever.rotation);
-                rotationDiff += 180;
-                player.Rotate(Vector3.up, rotationDiff);
+			// If this is true: The player has moved across the portal
+			if (dotProduct < 0f)
+			{
+				// Teleport him!
+				float rotationDiff = -Quaternion.Angle(transform.rotation, reciever.rotation);
+				rotationDiff = 0;
+				player.Rotate(Vector3.up, rotationDiff);
 
-                Vector3 positionOffset = Quaternion.Euler(0f, rotationDiff, 0f) * portalToPlayer;
-                player.position = reciever.position + positionOffset;
+				Vector3 positionOffset = Quaternion.Euler(0f, rotationDiff, 0f) * portalToPlayer;
+				player.position = reciever.position + positionOffset;
 
-                playerisOverlapping = false;
-            }
-        }
-    }
+				playerIsOverlapping = false;
+			}
+		}
+	}
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == "Player")
-        {
-            playerisOverlapping = true;
-            Debug.Log("Player is overlapping)");
-        }
-    }
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.tag == "Player")
+		{
+			playerIsOverlapping = true;
+		}
+	}
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            playerisOverlapping = false;
-            Debug.Log("Player is not overlapping)");
-        }
-    }
+	void OnTriggerExit(Collider other)
+	{
+		if (other.tag == "Player")
+		{
+			playerIsOverlapping = false;
+		}
+	}
 }

@@ -1,3 +1,13 @@
+/******************************************************************************
+Author: Syakir(S10204929) and Yankai(S10206089)
+
+Name of Class: DemoPlayer
+
+Description of Class: This class will setup the portal during the run time so that 
+					  the portal's texture will fit the player's playing screen
+
+Date Created: 27/06/2021
+******************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
