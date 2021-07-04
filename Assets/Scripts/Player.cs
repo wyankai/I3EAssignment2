@@ -83,6 +83,7 @@ public class Player : MonoBehaviour
 
         //Layer in which raycast can detect
         int layerMask = 1 << LayerMask.NameToLayer("Door");
+        int layerMasktwo = 1 << LayerMask.NameToLayer("Collectibiles");
 
         RaycastHit hitInfo;
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, layerMask))
@@ -93,6 +94,18 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 hitInfo.transform.GetComponent<Door>().Open();
+            }
+
+        }
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, layerMasktwo))
+        {
+            //If my ray hits something, print out the name of the object
+            Debug.Log("Collectibiles is being activated!");
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                hitInfo.transform.GetComponent<Collectibles>().Collect();
+                Debug.Log("Collectibles is collected");
             }
 
         }
