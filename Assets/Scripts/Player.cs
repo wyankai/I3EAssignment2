@@ -2,7 +2,7 @@
 Author: Syakir(S10204929) and Yankai(S10206089)
 [Adapted from Mr Elyas's Script]
 
-Name of Class: DemoPlayer
+Name of Class: Player
 
 Description of Class: This class will control the movement and actions of a 
                         player avatar based on user input.
@@ -82,11 +82,11 @@ public class Player : MonoBehaviour
         Debug.DrawLine(playerCamera.transform.position, playerCamera.transform.position + playerCamera.transform.forward * interactionDistance);
 
         //Layer in which raycast can detect
-        int layerMask = 1 << LayerMask.NameToLayer("Door");
-        int layerMasktwo = 1 << LayerMask.NameToLayer("Collectibiles");
+        int doorLayerMask = 1 << LayerMask.NameToLayer("Door");
+        int collectiblesLayerMask = 1 << LayerMask.NameToLayer("Collectibiles");
 
         RaycastHit hitInfo;
-        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, layerMask))
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, doorLayerMask))
         {
             //If my ray hits something, print out the name of the object
             Debug.Log(hitInfo.transform.name);
@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
             }
 
         }
-        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, layerMasktwo))
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, collectiblesLayerMask))
         {
             //If my ray hits something, print out the name of the object
             Debug.Log("Collectibiles is being activated!");

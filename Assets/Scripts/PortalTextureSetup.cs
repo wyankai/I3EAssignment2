@@ -1,7 +1,7 @@
 /******************************************************************************
 Author: Syakir(S10204929) and Yankai(S10206089)
 
-Name of Class: DemoPlayer
+Name of Class: PortalTextureSetup
 
 Description of Class: This class will setup the portal during the run time so that 
 					  the portal's texture will fit the player's playing screen

@@ -1,3 +1,13 @@
+/******************************************************************************
+Author: Syakir(S10204929) and Yankai(S10206089)
+
+Name of Class: Door
+
+Description of Class: This class will open/ close the door when the door is being interacted with. This class also help to set up the animation of the door
+
+Date Created: 27/06/2021
+******************************************************************************/
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

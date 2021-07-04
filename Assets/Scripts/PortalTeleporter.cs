@@ -1,7 +1,7 @@
 /******************************************************************************
 Author: Syakir(S10204929) and Yankai(S10206089)
 
-Name of Class: DemoPlayer
+Name of Class: PortalTeleporter
 
 Description of Class: This class will detect if the player is colliding with the
 					  collider, and if they do, teleport them to the designated area.
