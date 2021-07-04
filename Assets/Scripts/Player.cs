@@ -82,18 +82,18 @@ public class Player : MonoBehaviour
         Debug.DrawLine(playerCamera.transform.position, playerCamera.transform.position + playerCamera.transform.forward * interactionDistance);
 
         //Layer in which raycast can detect
-        int layerMask = 1 << LayerMask.NameToLayer("Interactables");
+        int layerMask = 1 << LayerMask.NameToLayer("Door");
 
         RaycastHit hitInfo;
-        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, 1))
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, layerMask))
         {
             //If my ray hits something, print out the name of the object
             Debug.Log(hitInfo.transform.name);
 
-            //if (Input.GetKey(KeyCode.E))
-            //{
-                //hitInfo.transform.GetComponent<InteractableObjects>().Interact();
-            //}
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                hitInfo.transform.GetComponent<Door>().Open();
+            }
 
         }
     }
