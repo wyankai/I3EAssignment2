@@ -69,6 +69,8 @@ public class Player : MonoBehaviour
 
         //For checking values for the animation
         animator.SetBool("onGround", onGround);
+        animator.SetFloat("Horizontal", Input.GetAxis("Horizontal"));
+        animator.SetFloat("Vertical", Input.GetAxis("Vertical"));
     }
 
     // Sets the current state of the player and starts the correct coroutine.
