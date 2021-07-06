@@ -187,11 +187,11 @@ public class Player : MonoBehaviour
         // If left shift is being pressed, run
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            moveSpeed = 8;
+            moveSpeed = 6;
         }
         else
         {
-            moveSpeed = 5;
+            moveSpeed = 3;
         }
     }
 
