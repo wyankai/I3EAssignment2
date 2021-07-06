@@ -116,7 +116,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && onGround)
         {
-            myRigidbody.AddForce(new Vector3(0, 15, 0), ForceMode.Impulse);
+            myRigidbody.AddForce(new Vector3(0, 5, 0), ForceMode.Impulse);
             onGround = false;
         }
     }
