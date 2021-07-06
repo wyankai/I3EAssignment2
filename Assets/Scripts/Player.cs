@@ -43,6 +43,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private string nextState;
 
+    public Animator animator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,6 +66,9 @@ public class Player : MonoBehaviour
 
         //Raycast
         InteractionRaycast();
+
+        //For checking values for the animation
+        animator.SetBool("onGround", onGround);
     }
 
     // Sets the current state of the player and starts the correct coroutine.
