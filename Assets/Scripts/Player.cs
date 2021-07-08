@@ -20,11 +20,11 @@ public class Player : MonoBehaviour
     private Rigidbody myRigidbody;
 
     [SerializeField]
-    private float interactionDistance;
+    private float interactionDistance = 3;
 
     // The distance this player will travel per second.
     [SerializeField]
-    private float moveSpeed;
+    private float moveSpeed = 3;
 
     // Speed of Camera Rotation.
     // Solve the problem where the camera overturn at the start of the game(Part 1)
