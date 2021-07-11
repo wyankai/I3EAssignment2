@@ -28,8 +28,8 @@ public class PortalTeleporter : MonoBehaviour
 			float dotProduct = Vector3.Dot(transform.up, portalToPlayer);
 
 			// If this is true: The player has moved across the portal
-			if (dotProduct < 0f)
-			{
+			//if (dotProduct < 0f)
+			//{
 				// Teleport him!
 				float rotationDiff = -Quaternion.Angle(transform.rotation, reciever.rotation);
 				rotationDiff = 0;
@@ -39,7 +39,7 @@ public class PortalTeleporter : MonoBehaviour
 				player.position = reciever.position + positionOffset;
 
 				playerIsOverlapping = false;
-			}
+			//}
 		}
 	}
 
@@ -48,6 +48,7 @@ public class PortalTeleporter : MonoBehaviour
 		if (other.tag == "Player")
 		{
 			playerIsOverlapping = true;
+			Debug.Log(" Player is colliding");
 		}
 	}
 
