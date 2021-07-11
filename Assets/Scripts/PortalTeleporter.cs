@@ -16,30 +16,31 @@ public class PortalTeleporter : MonoBehaviour
 {
 	public Transform player;
 	public Transform reciever;
+	private int randomFloat;
 
 	private bool playerIsOverlapping = false;
 
 	// Update is called once per frame
-	void Update()
-	{
+	void Update () {
 		if (playerIsOverlapping)
 		{
 			Vector3 portalToPlayer = player.position - transform.position;
 			float dotProduct = Vector3.Dot(transform.up, portalToPlayer);
 
 			// If this is true: The player has moved across the portal
-			//if (dotProduct < 0f)
-			//{
+			if (dotProduct > 0f)
+			{
 				// Teleport him!
 				float rotationDiff = -Quaternion.Angle(transform.rotation, reciever.rotation);
-				rotationDiff = 0;
-				player.Rotate(Vector3.up, rotationDiff);
+				rotationDiff += 180;
+				randomFloat = 0;
+				player.Rotate(Vector3.up, rotationDiff );
 
 				Vector3 positionOffset = Quaternion.Euler(0f, rotationDiff, 0f) * portalToPlayer;
 				player.position = reciever.position + positionOffset;
 
 				playerIsOverlapping = false;
-			//}
+			}
 		}
 	}
 
