@@ -14,14 +14,41 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject Player;
+    public bool playerInRange = false;
+    void Update()
     {
-        
+        Interact();
+    }
+
+    public void PlayerInRange()
+    {
+        playerInRange = true;
+    }
+
+    public void PlayerNotInRange()
+    {
+        playerInRange = false;
     }
 
     public void Interact()
     {
+        if (playerInRange == true)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Player.GetComponent<Player>().StopMoving();
+                Debug.Log("Player has stoppped moving");
 
+            }
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                Player.GetComponent<Player>().MoveAgain();
+            }
+        }
+        else
+        {
+            Player.GetComponent<Player>().MoveAgain();
+        }
     }
 }

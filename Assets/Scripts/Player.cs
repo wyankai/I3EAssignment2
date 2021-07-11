@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
 
     // Speed of Camera Rotation.
     // Solve the problem where the camera overturn at the start of the game(Part 1)
-    private float rotationSpeed = 0;
+    private float rotationSpeed = 100;
 
     //To check if the player is on the ground
     private bool onGround = true;
@@ -44,6 +44,7 @@ public class Player : MonoBehaviour
     private string nextState;
 
     public Animator animator;
+    public bool Chatting = false;
 
     // Start is called before the first frame update
     void Start()
@@ -71,6 +72,7 @@ public class Player : MonoBehaviour
         animator.SetBool("onGround", onGround);
         animator.SetFloat("Horizontal", Input.GetAxis("Horizontal"));
         animator.SetFloat("Vertical", Input.GetAxis("Vertical"));
+        animator.SetBool("Chatting", Chatting);
     }
 
     // Sets the current state of the player and starts the correct coroutine.
@@ -119,22 +121,25 @@ public class Player : MonoBehaviour
         }
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, npcLayerMask))
         {
-            //If my ray hits something, print out the name of the object
-            Debug.Log("Collectibiles is being activated!");
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                hitInfo.transform.GetComponent<NPC>().Interact();
-                Debug.Log("Collectibles is collected");
-            }
-
+            //Let NPC Script know that player is in range
+            hitInfo.transform.GetComponent<NPC>().PlayerInRange();
         }
+    }
+
+    //Sets 
+    public void StopMoving()
+    {
+        Chatting = true;
+    }
+    public void MoveAgain()
+    {
+        Chatting = false;
     }
 
     //Check and allow the player to jump
     private void CheckJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && onGround)
+        if (Input.GetKeyDown(KeyCode.Space) && onGround && !Chatting)
         {
             myRigidbody.AddForce(new Vector3(0, 5, 0), ForceMode.Impulse);
             onGround = false;
@@ -153,33 +158,39 @@ public class Player : MonoBehaviour
     // Checks and handles rotation of the camera and player
     private void CheckRotation()
     {
-        // Solve the problem where the camera overturn at the start of the game(Part 1)
-        if (rotationSpeed == 0){
-            System.Threading.Thread.Sleep(100);
-            rotationSpeed = 72;
+        if (Chatting == false)
+        {
+            Vector3 playerRotation = transform.rotation.eulerAngles;
+            playerRotation.y += Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
+
+            transform.rotation = Quaternion.Euler(playerRotation);
+
+            Vector3 cameraRotation = playerCamera.transform.rotation.eulerAngles;
+            cameraRotation.x -= Input.GetAxis("Mouse Y") * rotationSpeed * Time.deltaTime;
+
+            playerCamera.transform.rotation = Quaternion.Euler(cameraRotation);
         }
-        Vector3 playerRotation = transform.rotation.eulerAngles;
-        playerRotation.y += Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
-
-        transform.rotation = Quaternion.Euler(playerRotation);
-
-        Vector3 cameraRotation = playerCamera.transform.rotation.eulerAngles;
-        cameraRotation.x -= Input.GetAxis("Mouse Y") * rotationSpeed * Time.deltaTime;
-
-        playerCamera.transform.rotation = Quaternion.Euler(cameraRotation);
+        else
+        {
+            Debug.Log("Rotation disabled until Chatting is done");
+        }
     }
 
     // Checks and handles movement of the player
     private bool CheckMovement()
     {
         CheckRun();
-
+        if (Chatting == true)
+        {
+            return false;
+        }
         Vector3 newPos = transform.position;
 
         Vector3 xMovement = transform.right * Input.GetAxis("Horizontal");
-        Vector3 zMovement = transform.forward * Input.GetAxis("Vertical") ;
+        Vector3 zMovement = transform.forward * Input.GetAxis("Vertical");
 
         Vector3 movementVector = xMovement + zMovement;
+
 
         if (movementVector.sqrMagnitude > 0)
         {
@@ -230,7 +241,7 @@ public class Player : MonoBehaviour
             {
                 nextState = "Idle";
             }
-
+            
             yield return null;
         }
     }
