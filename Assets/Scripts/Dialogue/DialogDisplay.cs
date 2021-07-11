@@ -13,6 +13,7 @@ public class DialogDisplay : MonoBehaviour
     private SpeakerUI speakerUIRight;
 
     public int activeLineIndex = 0;
+    public bool playerInRange = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,10 +28,13 @@ public class DialogDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (playerInRange == true)
         {
-            AdvanceConversation();
-        }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                AdvanceConversation();
+            }
+        } 
     }
 
     void AdvanceConversation()
