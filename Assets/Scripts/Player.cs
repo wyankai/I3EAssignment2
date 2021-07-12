@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
     public bool Chatting = false;
 
     public GameObject NPC;
-    public int jumpForce;
+    public int jumpForce = 7;
 
     // Start is called before the first frame update
     void Start()

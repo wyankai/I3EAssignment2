@@ -24,9 +24,6 @@ public class PortalTextureSetup : MonoBehaviour
 	public Camera cameraE;
 	public Camera cameraF;
 
-	public Camera cameraG;
-	public Camera cameraH;
-
 
 	public Material cameraMatA;
 	public Material cameraMatB;
@@ -36,9 +33,6 @@ public class PortalTextureSetup : MonoBehaviour
 
 	public Material cameraMatE;
 	public Material cameraMatF;
-
-	public Material cameraMatG;
-	public Material cameraMatH;
 
 	// Use this for initialization
 	void Update()
