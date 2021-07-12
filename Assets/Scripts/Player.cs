@@ -47,6 +47,7 @@ public class Player : MonoBehaviour
     public bool Chatting = false;
 
     public GameObject NPC;
+    public int jumpForce;
 
     // Start is called before the first frame update
     void Start()
@@ -148,7 +149,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && onGround && !Chatting)
         {
-            myRigidbody.AddForce(new Vector3(0, 5, 0), ForceMode.Impulse);
+            myRigidbody.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
             onGround = false;
         }
     }
