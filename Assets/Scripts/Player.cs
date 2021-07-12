@@ -46,6 +46,8 @@ public class Player : MonoBehaviour
     public Animator animator;
     public bool Chatting = false;
 
+    public GameObject NPC;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -121,8 +123,13 @@ public class Player : MonoBehaviour
         }
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, npcLayerMask))
         {
+            Debug.Log("Player is interacting with the NPC");
             //Let NPC Script know that player is in range
             hitInfo.transform.GetComponent<NPC>().PlayerInRange();
+        }
+        else
+        {
+            NPC.GetComponent<NPC>().PlayerNotInRange();
         }
     }
 

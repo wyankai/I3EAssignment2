@@ -16,6 +16,12 @@ MonoBehaviour:
   speakerRight: {fileID: 11400000, guid: 661069819c1649748ae41fef87d187bf, type: 2}
   lines:
   - character: {fileID: 11400000, guid: 661069819c1649748ae41fef87d187bf, type: 2}
-    text: Greetings Chosen One
+    text: Greetings Chosen One, I heard your cries for power.Do you still seek it?
   - character: {fileID: 11400000, guid: 37db99886d43b4b419a948a996ee68c8, type: 2}
-    text: Who are you? Where am I?
+    text: 'H-How do you know?! I''ll do anything! Please!
+
+'
+  - character: {fileID: 11400000, guid: 661069819c1649748ae41fef87d187bf, type: 2}
+    text: You cannot find power, but power finds you. Complete the trial, and if
+      you are truly chosen, may you be blessed with unmatched power. Good luck, little
+      one
