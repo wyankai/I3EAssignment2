@@ -98,12 +98,13 @@ public class Player : MonoBehaviour
 
         //Layer in which raycast can detect
         int doorLayerMask = 1 << LayerMask.NameToLayer("Door");
-        int collectiblesLayerMask = 1 << LayerMask.NameToLayer("Collectibiles");
         int npcLayerMask = 1 << LayerMask.NameToLayer("NPC");
         int bagLayerMask = 1 << LayerMask.NameToLayer("Bag");
         int bagStandLayerMask = 1 << LayerMask.NameToLayer("Bag Stand");
 
         RaycastHit hitInfo;
+
+        //Door
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, doorLayerMask))
         {
             //If my ray hits something, print out the name of the object
@@ -136,7 +137,7 @@ public class Player : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                hitInfo.transform.GetComponent<BagPuzzle>().Check();
+                hitInfo.transform.GetComponent<BagStand>().Check();
             }
         }
 
