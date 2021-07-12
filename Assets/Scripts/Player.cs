@@ -43,7 +43,10 @@ public class Player : MonoBehaviour
     [SerializeField]
     private string nextState;
 
+    //To attach the player's animator
     public Animator animator;
+
+    //Check if player is chatting with an NPC or not
     public bool Chatting = false;
 
     public GameObject NPC;
@@ -97,6 +100,8 @@ public class Player : MonoBehaviour
         int doorLayerMask = 1 << LayerMask.NameToLayer("Door");
         int collectiblesLayerMask = 1 << LayerMask.NameToLayer("Collectibiles");
         int npcLayerMask = 1 << LayerMask.NameToLayer("NPC");
+        int bagLayerMask = 1 << LayerMask.NameToLayer("Bag");
+        int bagStandLayerMask = 1 << LayerMask.NameToLayer("Bag Stand");
 
         RaycastHit hitInfo;
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, doorLayerMask))
@@ -110,18 +115,32 @@ public class Player : MonoBehaviour
             }
 
         }
-        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, collectiblesLayerMask))
+
+        //For first level
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, bagLayerMask))
         {
             //If my ray hits something, print out the name of the object
             Debug.Log("Collectibiles is being activated!");
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                hitInfo.transform.GetComponent<Collectibles>().Collect();
-                Debug.Log("Collectibles is collected");
+                hitInfo.transform.GetComponent<BagPuzzle>().Collect();
             }
 
         }
+
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, bagStandLayerMask))
+        {
+            //If my ray hits something, print out the name of the object
+            Debug.Log("Bag Stand is being activated!");
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                hitInfo.transform.GetComponent<BagPuzzle>().Check();
+            }
+        }
+
+        //For NPC
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, npcLayerMask))
         {
             Debug.Log("Player is interacting with the NPC");

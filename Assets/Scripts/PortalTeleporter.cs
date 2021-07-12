@@ -16,7 +16,6 @@ public class PortalTeleporter : MonoBehaviour
 {
 	public Transform player;
 	public Transform reciever;
-	private int randomFloat;
 
 	private bool playerIsOverlapping = false;
 
@@ -33,7 +32,6 @@ public class PortalTeleporter : MonoBehaviour
 				// Teleport him!
 				float rotationDiff = -Quaternion.Angle(transform.rotation, reciever.rotation);
 				rotationDiff += 180;
-				randomFloat = 0;
 				player.Rotate(Vector3.up, rotationDiff );
 
 				Vector3 positionOffset = Quaternion.Euler(0f, rotationDiff, 0f) * portalToPlayer;
