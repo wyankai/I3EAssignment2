@@ -14,6 +14,7 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
+    public GameObject exclaimationMark;
     public Conversation conversation;
 
     public GameObject speakerLeft;
@@ -58,6 +59,7 @@ public class NPC : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
+                exclaimationMark.SetActive(false);
                 Player.GetComponent<Player>().StopMoving();
                 Debug.Log("Player has stoppped moving");
                 AdvanceConversation();
