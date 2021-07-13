@@ -101,6 +101,7 @@ public class Player : MonoBehaviour
         int npcLayerMask = 1 << LayerMask.NameToLayer("NPC");
         int bagLayerMask = 1 << LayerMask.NameToLayer("Bag");
         int bagStandLayerMask = 1 << LayerMask.NameToLayer("Bag Stand");
+        int gateLockedLayerMask = 1 << LayerMask.NameToLayer("GateLocked");
 
         RaycastHit hitInfo;
 
@@ -108,7 +109,7 @@ public class Player : MonoBehaviour
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, doorLayerMask))
         {
             //If my ray hits something, print out the name of the object
-            Debug.Log(hitInfo.transform.name);
+            Debug.Log("Door is being detected!");
 
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -121,7 +122,7 @@ public class Player : MonoBehaviour
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, bagLayerMask))
         {
             //If my ray hits something, print out the name of the object
-            Debug.Log("Collectibiles is being activated!");
+            Debug.Log("Bag is being activated!");
 
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -139,6 +140,19 @@ public class Player : MonoBehaviour
             {
                 hitInfo.transform.GetComponent<BagStand>().Check();
             }
+        }
+
+        //For Gate Locked
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, gateLockedLayerMask))
+        {
+            //If my ray hits something, print out the name of the object
+            Debug.Log("GateLocked is being activated!");
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                hitInfo.transform.GetComponent<GateLocked>().Interact();
+            }
+
         }
 
         //For NPC
