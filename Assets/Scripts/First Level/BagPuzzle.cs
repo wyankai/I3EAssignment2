@@ -16,11 +16,12 @@ public class BagPuzzle : MonoBehaviour
 {
 
     public GameObject bagStand;
+    public GameObject collectAudio;
 
     public void Collect()
     {
         Debug.Log("Bag is collected");
-
+        GameObject collectedAudio = Instantiate(collectAudio, transform.position, Quaternion.identity, null);
         Destroy(gameObject);
 
         bagStand.GetComponent<BagStand>().Collect();

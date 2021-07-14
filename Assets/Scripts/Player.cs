@@ -23,7 +23,6 @@ public class Player : MonoBehaviour
     private float interactionDistance = 3;
 
     // The distance this player will travel per second.
-    [SerializeField]
     private float moveSpeed = 3;
 
     // Speed of Camera Rotation.
@@ -38,9 +37,7 @@ public class Player : MonoBehaviour
     private Camera playerCamera;
 
     // This is for us to check the state while debugging
-    [SerializeField]
     private string currentState;
-    [SerializeField]
     private string nextState;
 
     //To attach the player's animator
@@ -50,12 +47,19 @@ public class Player : MonoBehaviour
     public bool Chatting = false;
 
     public GameObject NPC;
+    public GameObject gate;
     public int jumpForce = 7;
+
+    public GameObject jumpAudio;
+    public GameObject jumpLandAudio;
+    public GameObject doorAudio;
+    private AudioSource footstep;
 
     // Start is called before the first frame update
     void Start()
     {
         nextState = "Idle";
+        footstep = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -114,6 +118,7 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 hitInfo.transform.GetComponent<Door>().Open();
+                GameObject doorOpenAudio = Instantiate(doorAudio, transform.position, Quaternion.identity, null);
             }
 
         }
@@ -145,14 +150,13 @@ public class Player : MonoBehaviour
         //For Gate Locked
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, gateLockedLayerMask))
         {
-            //If my ray hits something, print out the name of the object
-            Debug.Log("GateLocked is being activated!");
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                hitInfo.transform.GetComponent<GateLocked>().PlayerInRange();
-            }
-
+            Debug.Log("Player is interacting with the Gate");
+            //Let NPC Script know that player is in range
+            hitInfo.transform.GetComponent<GateLocked>().PlayerInRange();
+        }
+        else
+        {
+            gate.GetComponent<GateLocked>().PlayerNotInRange();
         }
 
         //For NPC
@@ -185,6 +189,7 @@ public class Player : MonoBehaviour
         {
             myRigidbody.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
             onGround = false;
+            GameObject landAudio = Instantiate(jumpAudio, transform.position, Quaternion.identity, null);
         }
     }
 
@@ -192,6 +197,11 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Ground")
+        {
+            onGround = true;
+            GameObject landAudio = Instantiate(jumpLandAudio, transform.position, Quaternion.identity, null);
+        }
+        if (collision.gameObject.tag == "Grass")
         {
             onGround = true;
         }
@@ -261,6 +271,11 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void Footsteps()
+    {
+        footstep.Play();
+    }
+
     //Idle State
     private IEnumerator Idle()
     {
@@ -279,9 +294,11 @@ public class Player : MonoBehaviour
     {
         while (currentState == "Moving")
         {
+            
             if (!CheckMovement())
             {
                 nextState = "Idle";
+
             }
             
             yield return null;

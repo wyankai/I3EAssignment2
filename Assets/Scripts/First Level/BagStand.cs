@@ -21,6 +21,8 @@ public class BagStand : MonoBehaviour
     public GameObject Player;
     public bool playerInRange = false;
 
+    public GameObject gateOpen;
+
     void Start()
     {
         speakerUILeft = speakerLeft.GetComponent<SpeakerUI>();
@@ -41,6 +43,7 @@ public class BagStand : MonoBehaviour
             Debug.Log("Bag is placed");
             bagOnStand.SetActive(true);
             exclaimationMark.SetActive(false);
+            GameObject gateAudio = Instantiate(gateOpen, transform.position, Quaternion.identity, null);
             gate.SetActive(false);
         }
         else

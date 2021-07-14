@@ -24,19 +24,22 @@ public class ThirdAreaCollider : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CameraA.enabled = false;
-        CameraB.enabled = false;
-        CameraC.enabled = false;
-        CameraD.enabled = false;
-        CameraE.enabled = false;
-        CameraF.enabled = true;
+        if (playerIsOverlapping == true)
+        {
+            CameraA.enabled = false;
+            CameraB.enabled = false;
+            CameraC.enabled = false;
+            CameraD.enabled = false;
+            CameraE.enabled = false;
+            CameraF.enabled = true;
 
-        planeA.SetActive(false);
-        planeB.SetActive(false);
-        planeC.SetActive(false);
-        planeD.SetActive(false);
-        planeE.SetActive(false);
-        planeF.SetActive(true);
+            planeA.SetActive(false);
+            planeB.SetActive(false);
+            planeC.SetActive(false);
+            planeD.SetActive(false);
+            planeE.SetActive(false);
+            planeF.SetActive(true);
+        }
     }
 
     void OnTriggerEnter(Collider other)
