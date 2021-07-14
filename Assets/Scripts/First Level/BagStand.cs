@@ -10,10 +10,26 @@ public class BagStand : MonoBehaviour
     public GameObject exclaimationMark;
     public GameObject gate;
 
-    public bool dialogueShown = false;
-    public GameObject dialogue;
-    public GameObject Player;
+    public Conversation conversation;
+    public GameObject speakerLeft;
+    public GameObject speakerRight;
 
+    private SpeakerUI speakerUILeft;
+    private SpeakerUI speakerUIRight;
+
+    public int activeLineIndex = 0;
+    public GameObject Player;
+    public bool playerInRange = false;
+
+    void Start()
+    {
+        speakerUILeft = speakerLeft.GetComponent<SpeakerUI>();
+        speakerUIRight = speakerRight.GetComponent<SpeakerUI>();
+
+        speakerUILeft.Speaker = conversation.speakerLeft;
+        speakerUIRight.Speaker = conversation.speakerRight;
+
+    }
     public void Collect()
     {
         holdingBag = true;
@@ -29,20 +45,63 @@ public class BagStand : MonoBehaviour
         }
         else
         {
-           if(dialogueShown == false)
+            exclaimationMark.SetActive(false);
+            Player.GetComponent<Player>().StopMoving();
+            Debug.Log("Player has stoppped moving");
+            AdvanceConversation();
+
+            if (Input.GetKey(KeyCode.Escape))
             {
-                dialogue.SetActive(true);
-                dialogueShown = true;
-                exclaimationMark.SetActive(false);
-                Debug.Log("Player should stop moving");
-                Player.GetComponent<Player>().StopMoving();
-            }
-            else
-            {
-                dialogue.SetActive(false);
-                dialogueShown = false;
                 Player.GetComponent<Player>().MoveAgain();
             }
         }
+    }
+
+    void AdvanceConversation()
+    {
+        if (activeLineIndex < conversation.lines.Length)
+        {
+            DisplayLine();
+            activeLineIndex += 1;
+        }
+        else
+        {
+            speakerUILeft.Hide();
+            speakerUIRight.Hide();
+            activeLineIndex = 0;
+            Player.GetComponent<Player>().MoveAgain();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            speakerUILeft.Hide();
+            speakerUIRight.Hide();
+            activeLineIndex = 0;
+        }
+    }
+
+    void DisplayLine()
+    {
+        Line line = conversation.lines[activeLineIndex];
+        Character character = line.character;
+
+        if (speakerUILeft.SpeakerIs(character))
+        {
+            SetDialog(speakerUILeft, speakerUIRight, line.text);
+        }
+        else
+        {
+            SetDialog(speakerUIRight, speakerUILeft, line.text);
+        }
+    }
+
+    void SetDialog(
+        SpeakerUI activeSpeakerUI,
+        SpeakerUI inactiveSpeakerUI,
+        string text)
+    {
+        activeSpeakerUI.Dialog = text;
+        activeSpeakerUI.Show();
+        inactiveSpeakerUI.Hide();
     }
 }

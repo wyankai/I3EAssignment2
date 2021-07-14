@@ -150,7 +150,7 @@ public class Player : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                hitInfo.transform.GetComponent<GateLocked>().Interact();
+                hitInfo.transform.GetComponent<GateLocked>().PlayerInRange();
             }
 
         }

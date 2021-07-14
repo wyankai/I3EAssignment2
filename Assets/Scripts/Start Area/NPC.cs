@@ -69,10 +69,6 @@ public class NPC : MonoBehaviour
                 Player.GetComponent<Player>().MoveAgain();
             }
         }
-        else
-        {
-            Player.GetComponent<Player>().MoveAgain();
-        }
     }
 
     void AdvanceConversation()
