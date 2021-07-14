@@ -48,11 +48,11 @@ public class Player : MonoBehaviour
 
     public GameObject NPC;
     public GameObject gate;
+    public GameObject secondLevelGate;
     public int jumpForce = 7;
 
     public GameObject jumpAudio;
     public GameObject jumpLandAudio;
-    public GameObject doorAudio;
     private AudioSource footstep;
 
     // Start is called before the first frame update
@@ -101,11 +101,20 @@ public class Player : MonoBehaviour
         Debug.DrawLine(playerCamera.transform.position, playerCamera.transform.position + playerCamera.transform.forward * interactionDistance);
 
         //Layer in which raycast can detect
+        //Start Area
         int doorLayerMask = 1 << LayerMask.NameToLayer("Door");
         int npcLayerMask = 1 << LayerMask.NameToLayer("NPC");
+
+        //First Level
         int bagLayerMask = 1 << LayerMask.NameToLayer("Bag");
         int bagStandLayerMask = 1 << LayerMask.NameToLayer("Bag Stand");
         int gateLockedLayerMask = 1 << LayerMask.NameToLayer("GateLocked");
+
+        //Second Level
+        int gateTwoLayerMask = 1 << LayerMask.NameToLayer("SecondAreaGate");
+        int phoenixLayerMask = 1 << LayerMask.NameToLayer("PhoenixButton");
+        int dragonLayerMask = 1 << LayerMask.NameToLayer("DragonButton");
+        int krakenLayerMask = 1 << LayerMask.NameToLayer("KrakenButton");
 
         RaycastHit hitInfo;
 
@@ -118,7 +127,6 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 hitInfo.transform.GetComponent<Door>().Open();
-                GameObject doorOpenAudio = Instantiate(doorAudio, transform.position, Quaternion.identity, null);
             }
 
         }
@@ -169,6 +177,51 @@ public class Player : MonoBehaviour
         else
         {
             NPC.GetComponent<NPC>().PlayerNotInRange();
+        }
+
+        //For Second Area 
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, gateTwoLayerMask))
+        {
+            //If my ray hits something, print out the name of the object
+            Debug.Log("Bag Stand is being activated!");
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                hitInfo.transform.GetComponent<SecondLevelMetalGate>().Interact();
+            }
+        }
+
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, phoenixLayerMask))
+        {
+            //If my ray hits something, print out the name of the object
+            Debug.Log("Phoenix Button is being activated!");
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                secondLevelGate.transform.GetComponent<SecondLevelMetalGate>().pressPhoenix();
+            }
+        }
+
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, krakenLayerMask))
+        {
+            //If my ray hits something, print out the name of the object
+            Debug.Log("Kraken Button is being activated!");
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                secondLevelGate.transform.GetComponent<SecondLevelMetalGate>().pressKraken();
+            }
+        }
+
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, dragonLayerMask))
+        {
+            //If my ray hits something, print out the name of the object
+            Debug.Log("Dragon Button is being activated!");
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                secondLevelGate.transform.GetComponent<SecondLevelMetalGate>().pressDragon();
+            }
         }
     }
 

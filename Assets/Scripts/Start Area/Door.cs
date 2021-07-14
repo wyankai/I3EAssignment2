@@ -15,7 +15,9 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     public Animator animator;
-    private bool doorOpen = false;
+    public bool doorOpen = false;
+    public GameObject doorAudio;
+    public GameObject closeAudio;
 
     private void Update()
     {
@@ -29,11 +31,13 @@ public class Door : MonoBehaviour
         {
             doorOpen = true;
             Debug.Log("Door is opened");
+            GameObject doorOpenAudio = Instantiate(doorAudio, transform.position, Quaternion.identity, null);
         }
         else
         {
             doorOpen = false;
             Debug.Log("Door is closed");
+            GameObject doorCloseAudio = Instantiate(closeAudio, transform.position, Quaternion.identity, null);
         }
     }
 

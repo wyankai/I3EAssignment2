@@ -80,6 +80,7 @@ public class BagStand : MonoBehaviour
             speakerUILeft.Hide();
             speakerUIRight.Hide();
             activeLineIndex = 0;
+            Player.GetComponent<Player>().MoveAgain();
         }
     }
 
