@@ -120,6 +120,9 @@ public class Player : MonoBehaviour
         int dragonLayerMask = 1 << LayerMask.NameToLayer("DragonButton");
         int krakenLayerMask = 1 << LayerMask.NameToLayer("KrakenButton");
 
+        //Third Level
+        int swordPartLayerMask = 1 << LayerMask.NameToLayer("SwordPart");
+
         RaycastHit hitInfo;
 
         //Door
@@ -225,6 +228,18 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 secondLevelGate.transform.GetComponent<SecondLevelMetalGate>().pressDragon();
+            }
+        }
+
+        //For Third Area
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, swordPartLayerMask))
+        {
+            //If my ray hits something, print out the name of the object
+            Debug.Log("Bag Stand is being activated!");
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                hitInfo.transform.GetComponent<SwordPart>().collect();
             }
         }
     }
