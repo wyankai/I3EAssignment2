@@ -23,13 +23,15 @@ public class SecondLevelMetalGate : MonoBehaviour
     public bool playerInRange = false;
 
     //For buttons
-    public bool dragonPressed = false;
-    public bool krakenPressed = false;
-    public bool phoenixPressed = false;
-    public bool firstButtonCorrect = false;
-    public bool secondButtonCorrect = false;
-    public int buttonPressed = 0;
-    public bool gateOpen = false;
+    private bool dragonPressed = false;
+    private bool krakenPressed = false;
+    private bool phoenixPressed = false;
+    private bool firstButtonCorrect = false;
+    private bool secondButtonCorrect = false;
+    private int buttonPressed = 0;
+    private bool gateOpen = false;
+
+    public GameObject gateOpenAudio;
 
     // Start is called before the first frame update
     void Start()
@@ -55,48 +57,79 @@ public class SecondLevelMetalGate : MonoBehaviour
         krakenAnimator.SetBool("krakenPressed", krakenPressed);
     }
 
+    //For adding the audio to the animation
+    public void gateSound()
+    {
+        GameObject gateAudio = Instantiate(gateOpenAudio, transform.position, Quaternion.identity, null);
+    }
+
     //Dragon Pressed
     public void pressDragon()
     {
-        dragonPressed = true;
-        buttonPressed += 1;
-        Debug.Log("Dragon Button is pressed");
-        if (krakenPressed == false && phoenixPressed == false)
+        //This if statement prevent the button to be pressed again if its already pressed.
+        if(dragonPressed == false)
         {
-            firstButtonCorrect = true;
-            Debug.Log("First Button is correct");
+            dragonPressed = true;
+            buttonPressed += 1;
+            Debug.Log("Dragon Button is pressed");
+            if (krakenPressed == false && phoenixPressed == false)
+            {
+                firstButtonCorrect = true;
+                Debug.Log("First Button is correct");
+            }
+            else
+            {
+                firstButtonCorrect = false;
+                Debug.Log("First Button is wrong");
+            }
         }
         else
         {
-            firstButtonCorrect = false;
-            Debug.Log("First Button is wrong");
+            Debug.Log("This button is already pressed");
         }
     }
 
     //Kraken Pressed
     public void pressKraken()
     {
-        krakenPressed = true;
-        buttonPressed += 1; 
-        Debug.Log("Kraken Button is pressed");
-        if (dragonPressed == true && phoenixPressed == false)
+        //This if statement prevent the button to be pressed again if its already pressed.
+        if(krakenPressed == false)
         {
-            secondButtonCorrect = true;
-            Debug.Log("Second Button is correct");
+            krakenPressed = true;
+            buttonPressed += 1;
+            Debug.Log("Kraken Button is pressed");
+            if (dragonPressed == true && phoenixPressed == false)
+            {
+                secondButtonCorrect = true;
+                Debug.Log("Second Button is correct");
+            }
+            else
+            {
+                secondButtonCorrect = false;
+                Debug.Log("Second Button is wrong");
+            }
         }
         else
         {
-            secondButtonCorrect = false;
-            Debug.Log("Second Button is wrong");
+            Debug.Log("This button is already pressed");
         }
+
     }
 
     //Phoenix Pressed
     public void pressPhoenix()
     {
-        phoenixPressed = true;
-        buttonPressed += 1;
-        Debug.Log("Phoenix Button is pressed");
+        if(phoenixPressed == false)
+        {
+            phoenixPressed = true;
+            buttonPressed += 1;
+            Debug.Log("Phoenix Button is pressed");
+        }
+        else
+        {
+            Debug.Log("This button is already pressed");
+        }
+
     }
 
     //Checking if the buttons are pressed in the correct order

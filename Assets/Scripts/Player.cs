@@ -20,15 +20,15 @@ public class Player : MonoBehaviour
     private Rigidbody myRigidbody;
 
     [SerializeField]
-    private float interactionDistance = 3;
+    private float interactionDistance = 1.9f;
 
+    //For movement
     // The distance this player will travel per second.
     private float moveSpeed = 3;
-
     // Speed of Camera Rotation.
     // Solve the problem where the camera overturn at the start of the game(Part 1)
-    private float rotationSpeed = 100;
-
+    private float rotationSpeed = 85;
+    public int jumpForce = 7;
     //To check if the player is on the ground
     private bool onGround = true;
 
@@ -46,14 +46,18 @@ public class Player : MonoBehaviour
     //Check if player is chatting with an NPC or not
     public bool Chatting = false;
 
+    //To reference opject's script without Raycast
     public GameObject NPC;
     public GameObject gate;
     public GameObject secondLevelGate;
-    public int jumpForce = 7;
+    public GameObject Craftstable;
+    
 
+    //For audio
     public GameObject jumpAudio;
     public GameObject jumpLandAudio;
     private AudioSource footstep;
+
 
     // Start is called before the first frame update
     void Start()
