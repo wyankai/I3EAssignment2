@@ -11,11 +11,20 @@ public class craftstable : MonoBehaviour
     // This is for adding the dialoguePanel and dialogueText so that the player can set it active when interacting with the craftstable
     public GameObject dialoguePanel;
     public Text dialogueText;
+    private bool craftstableDialog = false;
+
+    public GameObject Player;
+    public bool crafted = false;
 
     private void Start()
     {
-        //dialoguePanel.SetActive(false);
-        //dialogueText.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        partsLeftToCollect = 5 - partsCollected;
+        Text craftsText = dialogueText.GetComponent<Text>();
+        craftsText.text = "You have not collected all the parts yet. Parts left to collect : " + partsLeftToCollect;
     }
 
     public void addSwordParts()
@@ -26,15 +35,27 @@ public class craftstable : MonoBehaviour
 
     public void Interact()
     {
-        partsLeftToCollect = 5 - partsCollected;
         if (partsLeftToCollect > 0)
         {
-            //dialogueText.text = "You have not collected all the parts yet. Parts left to collect : " + partsLeftToCollect;
-
+            if(craftstableDialog == false)
+            {
+                Debug.Log("dialogue is supposed to set active but idk what wrong");
+                dialoguePanel.SetActive(true);
+                dialogueText.gameObject.SetActive(true);
+                Player.GetComponent<Player>().StopMoving();
+                craftstableDialog = true;
+            }
+            else
+            {
+                dialoguePanel.SetActive(false);
+                dialogueText.gameObject.SetActive(false);
+                Player.GetComponent<Player>().MoveAgain();
+                craftstableDialog = false;
+            }   
         }
         else
         {
-
+            crafted = true;
         }
     }
 }

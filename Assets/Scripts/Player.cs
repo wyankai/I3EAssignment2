@@ -122,6 +122,7 @@ public class Player : MonoBehaviour
 
         //Third Level
         int swordPartLayerMask = 1 << LayerMask.NameToLayer("SwordPart");
+        int craftstableLayerMask = 1 << LayerMask.NameToLayer("Craftstable");
 
         RaycastHit hitInfo;
 
@@ -240,6 +241,16 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 hitInfo.transform.GetComponent<SwordPart>().collect();
+            }
+        }
+
+        //For Third Area
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, craftstableLayerMask))
+        {
+            Debug.Log("Craftstable is being activated!");
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                hitInfo.transform.GetComponent<craftstable>().Interact();
             }
         }
     }
