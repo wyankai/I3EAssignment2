@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Playables;
 
 public class craftstable : MonoBehaviour
 {
     private int partsCollected = 0;
     private int partsLeftToCollect;
+
+    public PlayableDirector playableDirector;
 
     // This is for adding the dialoguePanel and dialogueText so that the player can set it active when interacting with the craftstable
     public GameObject dialoguePanel;
@@ -14,11 +17,13 @@ public class craftstable : MonoBehaviour
     private bool craftstableDialog = false;
 
     public GameObject Player;
-    public bool crafted = false;
+    public GameObject FinalSword;
 
-    private void Start()
-    {
-    }
+    public bool crafted = false;
+    public GameObject LeftDoor;
+    public GameObject RightDoor;
+    public GameObject Keyhole;
+    public GameObject exclaimationMark;
 
     private void Update()
     {
@@ -39,11 +44,11 @@ public class craftstable : MonoBehaviour
         {
             if(craftstableDialog == false)
             {
-                Debug.Log("dialogue is supposed to set active but idk what wrong");
                 dialoguePanel.SetActive(true);
                 dialogueText.gameObject.SetActive(true);
                 Player.GetComponent<Player>().StopMoving();
                 craftstableDialog = true;
+                exclaimationMark.SetActive(false);
             }
             else
             {
@@ -55,7 +60,9 @@ public class craftstable : MonoBehaviour
         }
         else
         {
+            exclaimationMark.SetActive(false);
             crafted = true;
+            playableDirector.Play();
         }
     }
 }

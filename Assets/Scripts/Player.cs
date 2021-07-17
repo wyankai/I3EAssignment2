@@ -58,6 +58,9 @@ public class Player : MonoBehaviour
     public GameObject jumpLandAudio;
     private AudioSource footstep;
 
+    private bool talkedToNPC = false;
+    private bool goTalkDisplay = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -123,18 +126,27 @@ public class Player : MonoBehaviour
         //Third Level
         int swordPartLayerMask = 1 << LayerMask.NameToLayer("SwordPart");
         int craftstableLayerMask = 1 << LayerMask.NameToLayer("Craftstable");
+        int finalDoorLayerMask = 1 << LayerMask.NameToLayer("Final Door");
 
         RaycastHit hitInfo;
 
         //Door
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, doorLayerMask))
         {
-            //If my ray hits something, print out the name of the object
-            Debug.Log("Door is being detected!");
-
             if (Input.GetKeyDown(KeyCode.E))
             {
-                hitInfo.transform.GetComponent<Door>().Open();
+                if(talkedToNPC == true)
+                {
+                    hitInfo.transform.GetComponent<Door>().Open();
+                }
+                else
+                {
+                    if(goTalkDisplay == false)
+                    {
+
+                    }
+                }
+                
             }
 
         }
@@ -178,9 +190,8 @@ public class Player : MonoBehaviour
         //For NPC
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, npcLayerMask))
         {
-            Debug.Log("Player is interacting with the NPC");
-            //Let NPC Script know that player is in range
             hitInfo.transform.GetComponent<NPC>().PlayerInRange();
+            talkedToNPC = true;
         }
         else
         {
@@ -190,9 +201,6 @@ public class Player : MonoBehaviour
         //For Second Area 
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, gateTwoLayerMask))
         {
-            //If my ray hits something, print out the name of the object
-            Debug.Log("Bag Stand is being activated!");
-
             if (Input.GetKeyDown(KeyCode.E))
             {
                 hitInfo.transform.GetComponent<SecondLevelMetalGate>().Interact();
@@ -236,7 +244,7 @@ public class Player : MonoBehaviour
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, swordPartLayerMask))
         {
             //If my ray hits something, print out the name of the object
-            Debug.Log("Bag Stand is being activated!");
+            Debug.Log("Sword Part is being activated!");
 
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -244,7 +252,6 @@ public class Player : MonoBehaviour
             }
         }
 
-        //For Third Area
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, craftstableLayerMask))
         {
             Debug.Log("Craftstable is being activated!");
@@ -253,6 +260,18 @@ public class Player : MonoBehaviour
                 hitInfo.transform.GetComponent<craftstable>().Interact();
             }
         }
+
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, finalDoorLayerMask))
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                hitInfo.transform.GetComponent<FinalDoor>().Interact();
+            }
+        }
+        else
+        {
+        }
+
     }
 
     //Sets 
