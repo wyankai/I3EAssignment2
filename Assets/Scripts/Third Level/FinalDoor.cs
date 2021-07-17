@@ -1,6 +1,18 @@
+/******************************************************************************
+Author: Syakir(S10204929) and Yankai(S10206089)
+
+Name of Class: FinalDoor
+
+Description of Class: This class will control the final door interactions.
+
+Date Created: 15/07/2021
+******************************************************************************/
+
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class FinalDoor : MonoBehaviour
 {
@@ -8,6 +20,7 @@ public class FinalDoor : MonoBehaviour
     public Conversation conversation;
     public GameObject speakerLeft;
     public GameObject speakerRight;
+    public Camera CutsceneCamera;
 
     private SpeakerUI speakerUILeft;
     private SpeakerUI speakerUIRight;
@@ -17,6 +30,7 @@ public class FinalDoor : MonoBehaviour
     public bool playerInRange = false;
 
     public bool swordCollected = false;
+    public PlayableDirector playableDirector;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +42,7 @@ public class FinalDoor : MonoBehaviour
 
     }
 
-    // Update is called once per frame
+    // Swor Collected
     public void SwordCollected()
     {
         swordCollected = true;
@@ -36,6 +50,7 @@ public class FinalDoor : MonoBehaviour
 
     public void Interact()
     {
+        //If sword is not collected, display text to tell the player to craft the sword/ Remind the players they need to take the sword
         if(swordCollected == false)
         {
             Player.GetComponent<Player>().StopMoving();
@@ -49,7 +64,7 @@ public class FinalDoor : MonoBehaviour
         }
         else
         {
-
+            //Else the game will end
         }
         
     }

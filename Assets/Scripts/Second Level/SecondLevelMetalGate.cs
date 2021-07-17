@@ -1,3 +1,15 @@
+/******************************************************************************
+Author: Syakir(S10204929) and Yankai(S10206089)
+
+Name of Class: SecondLevelMetalGate
+
+Description of Class: This class will detect whether or not the player has complete the puzzle 
+                        if not, the script will print the conversation to tell the player on what to do.
+                        This class will also see if the buttons are pressed in the correct order.
+                        This class will also play the audio when the buttons are pressed/ reset
+
+Date Created: 11/07/2021
+******************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,8 +42,15 @@ public class SecondLevelMetalGate : MonoBehaviour
     private bool secondButtonCorrect = false;
     private int buttonPressed = 0;
     private bool gateOpen = false;
+    private bool activateOnce = false;
 
+    //To play the audio
+    public GameObject buttonPressedAudio;
+    public GameObject buttonResetAudio;
     public GameObject gateOpenAudio;
+
+    //To refer to the script in QuestManager
+    public GameObject QuestManager;
 
     // Start is called before the first frame update
     void Start()
@@ -69,23 +88,22 @@ public class SecondLevelMetalGate : MonoBehaviour
         //This if statement prevent the button to be pressed again if its already pressed.
         if(dragonPressed == false)
         {
+            GameObject collectedAudio = Instantiate(buttonPressedAudio, transform.position, Quaternion.identity, null);
             dragonPressed = true;
             buttonPressed += 1;
             Debug.Log("Dragon Button is pressed");
             if (krakenPressed == false && phoenixPressed == false)
             {
                 firstButtonCorrect = true;
-                Debug.Log("First Button is correct");
             }
             else
             {
                 firstButtonCorrect = false;
-                Debug.Log("First Button is wrong");
             }
         }
         else
         {
-            Debug.Log("This button is already pressed");
+            //Nothing happens because the button has already been pressed
         }
     }
 
@@ -95,23 +113,21 @@ public class SecondLevelMetalGate : MonoBehaviour
         //This if statement prevent the button to be pressed again if its already pressed.
         if(krakenPressed == false)
         {
+            GameObject collectedAudio = Instantiate(buttonPressedAudio, transform.position, Quaternion.identity, null);
             krakenPressed = true;
             buttonPressed += 1;
-            Debug.Log("Kraken Button is pressed");
             if (dragonPressed == true && phoenixPressed == false)
             {
                 secondButtonCorrect = true;
-                Debug.Log("Second Button is correct");
             }
             else
             {
                 secondButtonCorrect = false;
-                Debug.Log("Second Button is wrong");
             }
         }
         else
         {
-            Debug.Log("This button is already pressed");
+            //Nothing happens because the button has already been pressed
         }
 
     }
@@ -121,13 +137,13 @@ public class SecondLevelMetalGate : MonoBehaviour
     {
         if(phoenixPressed == false)
         {
+            GameObject collectedAudio = Instantiate(buttonPressedAudio, transform.position, Quaternion.identity, null);
             phoenixPressed = true;
             buttonPressed += 1;
-            Debug.Log("Phoenix Button is pressed");
         }
         else
         {
-            Debug.Log("This button is already pressed");
+            //Nothing happens because the button has already been pressed
         }
 
     }
@@ -140,10 +156,17 @@ public class SecondLevelMetalGate : MonoBehaviour
         {
             gateOpen = true;
             Debug.Log("Buttons are pressed in the correct order");
+            QuestManager.transform.GetComponent<QuestManager>().ClearLevelTwo();
+            if (activateOnce == false)
+            {
+                QuestManager.transform.GetComponent<QuestManager>().questNoti();
+                activateOnce = true;
+            }
         }
         //else reset the buttons
         else
         {
+            GameObject collectedAudio = Instantiate(buttonResetAudio, transform.position, Quaternion.identity, null);
             dragonPressed = false;
             krakenPressed = false;
             phoenixPressed = false;

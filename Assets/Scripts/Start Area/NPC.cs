@@ -17,6 +17,7 @@ public class NPC : MonoBehaviour
     public GameObject exclaimationMark;
     public Conversation conversation;
 
+    //To display the conversation
     public GameObject speakerLeft;
     public GameObject speakerRight;
 
@@ -25,7 +26,12 @@ public class NPC : MonoBehaviour
 
     public int activeLineIndex = 0;
     public GameObject Player;
+
+    //For detecting if the player is in range
     public bool playerInRange = false;
+
+    //To get the quest
+    public GameObject QuestManager;
 
     void Start()
     {
@@ -45,7 +51,6 @@ public class NPC : MonoBehaviour
     public void PlayerInRange()
     {
         playerInRange = true;
-        Debug.Log("Player is in range");
     }
 
     public void PlayerNotInRange()
@@ -59,14 +64,15 @@ public class NPC : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
+                //If interacting with the player, make player stop moving
                 exclaimationMark.SetActive(false);
                 Player.GetComponent<Player>().StopMoving();
-                Debug.Log("Player has stoppped moving");
                 AdvanceConversation();
             }
             if (Input.GetKey(KeyCode.Escape))
             {
                 Player.GetComponent<Player>().MoveAgain();
+                
             }
         }
     }
@@ -84,6 +90,7 @@ public class NPC : MonoBehaviour
             speakerUIRight.Hide();
             activeLineIndex = 0;
             Player.GetComponent<Player>().MoveAgain();
+            QuestManager.transform.GetComponent<QuestManager>().TalkedToNPC();
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))

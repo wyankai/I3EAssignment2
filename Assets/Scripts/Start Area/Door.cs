@@ -14,6 +14,7 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+    //For animating the door at the different area at the same time to make it look like they are the same door since both doors are different area
     public Animator animator;
     public bool doorOpen = false;
     public GameObject doorAudio;
@@ -29,12 +30,14 @@ public class Door : MonoBehaviour
     {
         if(doorOpen == false)
         {
+            //Plays audio when the door opens
             doorOpen = true;
             Debug.Log("Door is opened");
             GameObject doorOpenAudio = Instantiate(doorAudio, transform.position, Quaternion.identity, null);
         }
         else
         {
+            //Plays audio when the door close
             doorOpen = false;
             Debug.Log("Door is closed");
             GameObject doorCloseAudio = Instantiate(closeAudio, transform.position, Quaternion.identity, null);

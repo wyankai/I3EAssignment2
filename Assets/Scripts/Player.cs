@@ -51,6 +51,7 @@ public class Player : MonoBehaviour
     public GameObject gate;
     public GameObject secondLevelGate;
     public GameObject Craftstable;
+    public GameObject QuestManager;
     
 
     //For audio
@@ -58,8 +59,14 @@ public class Player : MonoBehaviour
     public GameObject jumpLandAudio;
     private AudioSource footstep;
 
+    //For NPC
     private bool talkedToNPC = false;
     private bool goTalkDisplay = false;
+    public GameObject promptDialogue;
+    public GameObject sword;
+
+
+
 
 
     // Start is called before the first frame update
@@ -126,6 +133,7 @@ public class Player : MonoBehaviour
         //Third Level
         int swordPartLayerMask = 1 << LayerMask.NameToLayer("SwordPart");
         int craftstableLayerMask = 1 << LayerMask.NameToLayer("Craftstable");
+        int swordLayerMask = 1 << LayerMask.NameToLayer("Sword");
         int finalDoorLayerMask = 1 << LayerMask.NameToLayer("Final Door");
 
         RaycastHit hitInfo;
@@ -143,7 +151,15 @@ public class Player : MonoBehaviour
                 {
                     if(goTalkDisplay == false)
                     {
-
+                        promptDialogue.SetActive(true);
+                        goTalkDisplay = true;
+                        StopMoving();
+                    }
+                    else
+                    {
+                        goTalkDisplay = false;
+                        promptDialogue.SetActive(false) ;
+                        MoveAgain();
                     }
                 }
                 
@@ -154,8 +170,6 @@ public class Player : MonoBehaviour
         //For first level
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, bagLayerMask))
         {
-            //If my ray hits something, print out the name of the object
-            Debug.Log("Bag is being activated!");
 
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -166,8 +180,6 @@ public class Player : MonoBehaviour
 
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, bagStandLayerMask))
         {
-            //If my ray hits something, print out the name of the object
-            Debug.Log("Bag Stand is being activated!");
 
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -178,8 +190,6 @@ public class Player : MonoBehaviour
         //For Gate Locked
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, gateLockedLayerMask))
         {
-            Debug.Log("Player is interacting with the Gate");
-            //Let NPC Script know that player is in range
             hitInfo.transform.GetComponent<GateLocked>().PlayerInRange();
         }
         else
@@ -191,7 +201,10 @@ public class Player : MonoBehaviour
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, npcLayerMask))
         {
             hitInfo.transform.GetComponent<NPC>().PlayerInRange();
-            talkedToNPC = true;
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                talkedToNPC = true;
+            } 
         }
         else
         {
@@ -209,9 +222,6 @@ public class Player : MonoBehaviour
 
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, phoenixLayerMask))
         {
-            //If my ray hits something, print out the name of the object
-            Debug.Log("Phoenix Button is being activated!");
-
             if (Input.GetKeyDown(KeyCode.E))
             {
                 secondLevelGate.transform.GetComponent<SecondLevelMetalGate>().pressPhoenix();
@@ -220,9 +230,6 @@ public class Player : MonoBehaviour
 
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, krakenLayerMask))
         {
-            //If my ray hits something, print out the name of the object
-            Debug.Log("Kraken Button is being activated!");
-
             if (Input.GetKeyDown(KeyCode.E))
             {
                 secondLevelGate.transform.GetComponent<SecondLevelMetalGate>().pressKraken();
@@ -231,9 +238,6 @@ public class Player : MonoBehaviour
 
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, dragonLayerMask))
         {
-            //If my ray hits something, print out the name of the object
-            Debug.Log("Dragon Button is being activated!");
-
             if (Input.GetKeyDown(KeyCode.E))
             {
                 secondLevelGate.transform.GetComponent<SecondLevelMetalGate>().pressDragon();
@@ -243,8 +247,6 @@ public class Player : MonoBehaviour
         //For Third Area
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, swordPartLayerMask))
         {
-            //If my ray hits something, print out the name of the object
-            Debug.Log("Sword Part is being activated!");
 
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -254,7 +256,6 @@ public class Player : MonoBehaviour
 
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, craftstableLayerMask))
         {
-            Debug.Log("Craftstable is being activated!");
             if (Input.GetKeyDown(KeyCode.E))
             {
                 hitInfo.transform.GetComponent<craftstable>().Interact();
@@ -271,17 +272,35 @@ public class Player : MonoBehaviour
         else
         {
         }
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, interactionDistance, swordLayerMask))
+        {
+            //If my ray hits something, print out the name of the object
+            Debug.Log("Dragon Button is being activated!");
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                hitInfo.transform.GetComponent<Sword>().Collect();
+            }
+        }
+
 
     }
 
-    //Sets 
+    //For the player to stop moving when chatting or cutscene
     public void StopMoving()
     {
         Chatting = true;
     }
+
+    //For the player to move when chatting is done/ cutscene is done
     public void MoveAgain()
     {
         Chatting = false;
+    }
+
+    public void swordObtained()
+    {
+        sword.SetActive(true);
     }
 
     //Check and allow the player to jump

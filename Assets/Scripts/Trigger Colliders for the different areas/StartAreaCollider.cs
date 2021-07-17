@@ -1,3 +1,12 @@
+/******************************************************************************
+Author: Syakir(S10204929) and Yankai(S10206089)
+
+Name of Class: StartAreaCollider
+
+Description of Class: This class will detect if the player is in the first area then disable cameras that are not needed
+
+Date Created: 13/07/2021
+******************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,12 +52,12 @@ public class StartAreaCollider : MonoBehaviour
         }
     }
 
+    //Detect if the player is in the area
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
             playerIsOverlapping = true;
-            Debug.Log(" Player is in start area");
         }
     }
 
@@ -57,7 +66,6 @@ public class StartAreaCollider : MonoBehaviour
         if (other.tag == "Player")
         {
             playerIsOverlapping = false;
-            Debug.Log(" Player has left the start area");
         }
     }
 }

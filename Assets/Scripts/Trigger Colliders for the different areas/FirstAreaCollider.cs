@@ -1,3 +1,14 @@
+/******************************************************************************
+Author: Syakir(S10204929) and Yankai(S10206089)
+
+Name of Class: FirstAreaCollider
+
+Description of Class: This class will detect if the player is in the first area then disable cameras that are not needed
+
+Date Created: 13/07/2021
+******************************************************************************/
+
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +30,9 @@ public class FirstAreaCollider : MonoBehaviour
     public GameObject planeE;
     public GameObject planeF;
 
+    public GameObject QuestManager;
+
+    private bool activateOnce = false;
     private bool playerIsOverlapping = false;
 
     // Update is called once per frame
@@ -48,7 +62,12 @@ public class FirstAreaCollider : MonoBehaviour
         if (other.tag == "Player")
         {
             playerIsOverlapping = true;
-            Debug.Log(" Player is in first area");
+            QuestManager.GetComponent<QuestManager>().InFirstArea();
+            if (activateOnce == false)
+            {
+                QuestManager.transform.GetComponent<QuestManager>().questNoti();
+                activateOnce = true;
+            }
         }
     }
 
@@ -57,7 +76,6 @@ public class FirstAreaCollider : MonoBehaviour
         if (other.tag == "Player")
         {
             playerIsOverlapping = false;
-            Debug.Log(" Player has left the first area");
         }
     }
 }

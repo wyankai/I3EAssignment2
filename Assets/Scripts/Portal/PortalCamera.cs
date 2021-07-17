@@ -1,6 +1,5 @@
 /******************************************************************************
 Author: Syakir(S10204929) and Yankai(S10206089)
-[Adapted from Mr Elyas's Script]
 
 Name of Class: PortalCamera
 

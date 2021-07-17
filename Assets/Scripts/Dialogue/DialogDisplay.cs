@@ -1,3 +1,14 @@
+/******************************************************************************
+Author: Syakir(S10204929) and Yankai(S10206089)
+
+Name of Class: DialogDisplay
+
+Description of Class: This class will extract information from the Scriptable Objects 
+                       and display them as dialog.
+
+Date Created: 07/07/2021
+******************************************************************************/
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +17,7 @@ public class DialogDisplay : MonoBehaviour
 {
     public Conversation conversation;
 
+    //Getting the UI for the Speaker on the Left and the Speaker on the Right
     public GameObject speakerLeft;
     public GameObject speakerRight;
 
@@ -37,11 +49,13 @@ public class DialogDisplay : MonoBehaviour
         } 
     }
 
+    //Uses loop to prints the current line then add on to the index to print the next line
     void AdvanceConversation()
     {
         if(activeLineIndex < conversation.lines.Length)
         {
             DisplayLine();
+            //This is to increase the indext to print lines in the Dialog "array"
             activeLineIndex += 1;
         }
         else
@@ -59,6 +73,7 @@ public class DialogDisplay : MonoBehaviour
         }
     }
 
+    //For displaying of the lines in the conversation.
     void DisplayLine()
     {
         Line line = conversation.lines[activeLineIndex];

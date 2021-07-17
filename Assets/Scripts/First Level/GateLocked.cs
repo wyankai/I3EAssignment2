@@ -1,3 +1,13 @@
+/******************************************************************************
+Author: Syakir(S10204929) and Yankai(S10206089)
+
+Name of Class: GatLocked
+
+Description of Class: This class is for the gate in the first area. This class 
+                        will print out a conversation tell the player to complete their current task
+
+Date Created: 11/07/2021
+******************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,10 +42,10 @@ public class GateLocked : MonoBehaviour
         Interact();
     }
 
+    //Check if the player is in range, if yes allow interaction
     public void PlayerInRange()
     {
         playerInRange = true;
-        Debug.Log("Player is in range");
     }
 
     public void PlayerNotInRange()
@@ -59,6 +69,7 @@ public class GateLocked : MonoBehaviour
         }
     }
 
+    //To print the conversation
     void AdvanceConversation()
     {
         if (activeLineIndex < conversation.lines.Length)
