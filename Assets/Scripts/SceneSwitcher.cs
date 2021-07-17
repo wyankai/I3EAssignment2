@@ -17,7 +17,7 @@ public class SceneSwitcher : MonoBehaviour
 {
     public void Game()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene(1);
     }
     public void playCredits()
     {
