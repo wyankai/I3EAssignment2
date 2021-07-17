@@ -13,6 +13,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public class FinalDoor : MonoBehaviour
 {
@@ -64,7 +65,7 @@ public class FinalDoor : MonoBehaviour
         }
         else
         {
-            //Else the game will end
+            SceneManager.LoadScene("Ending");
         }
         
     }
@@ -84,13 +85,6 @@ public class FinalDoor : MonoBehaviour
             Player.GetComponent<Player>().MoveAgain();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            speakerUILeft.Hide();
-            speakerUIRight.Hide();
-            activeLineIndex = 0;
-            Player.GetComponent<Player>().MoveAgain();
-        }
     }
 
     void DisplayLine()
